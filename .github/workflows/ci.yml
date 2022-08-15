@@ -1,0 +1,58 @@
+name: CI
+
+# Events that trigger workflow
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+
+jobs:
+  lint_python:
+    name: Lint Python Code
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      - name: Install Linters
+        run: make venv
+      - name: Lint
+        run: make lint
+  push_to_pypi:
+    name: Build (and publish, if applicable)
+    runs-on: ubuntu-20.04
+    needs: lint_python
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Export Repo URL
+        run: echo "REPO_URL=https://github.com/${{ github.repository }}" >> $GITHUB_ENV
+      - name: Export Branch Name
+        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Set Up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Build Distribution
+        run: |
+          make dist
+      - name: Set default for env.NEW_TAG
+        run: echo "NEW_TAG=NO_NEW_TAG" >> $GITHUB_ENV
+      - name: Check for new version
+        if: ${{ env.BRANCH_NAME == 'main' }}
+        run: |
+          make venv
+          cd ${GITHUB_WORKSPACE}/ && ./venv/bin/python3 .github/scripts/generate_tag.py
+      - name: Tag Commit
+        if: ${{ env.NEW_TAG != 'NO_NEW_TAG' }}
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          tag: "${{ env.NEW_TAG }}"
+          repo-token: "${{ secrets.MY_TOKEN }}"
+      - name: Publish
+        if: ${{ env.NEW_TAG != 'NO_NEW_TAG' }}
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
