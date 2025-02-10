@@ -9,7 +9,8 @@
 <p align="center">A simple utility using Pyverilog that lists the differences between two netlists.</p>
 
 # Requirements
-* Python 3.6+ with PIP
+* Python 3.8+ with PIP
+* IcarusVerilog
 
 # Installation
 ```sh

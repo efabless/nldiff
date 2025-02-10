@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "nldiff"
-version = "0.1.0"  # Replace with your actual version
+version = "0.1.1"
 description = "Netlist Diff Tool"
 authors = ["Mohamed Gaber <donn@efabless.com>"]
-license = "MIT" # Replace with your license if different.  Common ones: MIT, Apache-2.0, GPL-3.0
+license = "Apache-2.0" 
 readme = "Readme.md"
-packages = [{ include = "nldiff" }] # This is how Poetry handles packages
+packages = [{ include = "nldiff" }]
 classifiers = [
     "Programming Language:: Python:: 3",
     "Intended Audience:: Developers",
@@ -14,7 +14,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"  # Redundant, but good practice to keep here too
+python = "^3.8"
 click = ">=8.0.0,<9"
 pyverilog = "*"
 
