@@ -47,8 +47,14 @@ def diff(first_nl: str, second_nl: str) -> bool:
         print(f"The second netlist is not supported: {e}")
         exit(os.EX_DATAERR)
 
-    for difference in metadata_1.diff(metadata_2):
+    differences = metadata_1.diff(metadata_2)
+    for difference in differences:
         print(difference)
+
+    if len(differences):
+        exit(1)
+    else:
+        exit(0)
 
 
 @click.command()

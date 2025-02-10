@@ -22,7 +22,7 @@ pyverilog = "*"
 [tool.poetry.group.dev.dependencies]
 wheel = "*"
 black = ">=24.4.0,<25"
-flake8 = ">=4"
+flake8 = "*"
 
 [tool.poetry.scripts]
 nldiff = "nldiff.__main__:diff_cmd"

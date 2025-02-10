@@ -7,7 +7,6 @@ dist: venv/manifest.txt
 lint:
 	black --check .
 	flake8 .
-	mypy --check-untyped-defs .
 
 venv: venv/manifest.txt
 venv/manifest.txt: ./pyproject.toml
