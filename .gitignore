@@ -11,3 +11,4 @@ parsetab.py
 *.rpt
 *.log
 /*.v
+requirements_tmp.txt
